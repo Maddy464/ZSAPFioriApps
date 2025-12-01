@@ -1,15 +1,24 @@
 Goods Issue vs. Goods Receipt in sap
 
+https://learning.sap.com/learning-journeys/configuring-sap-s-4hana-cloud-private-edition-asset-management/working-with-serial-numbers
+
+
+https://learning.sap.com/learning-journeys/explore-integrated-business-processes-in-sap-s-4hana/posting-a-goods-receipt-for-a-purchase-order_dca5589c-4014-4387-a336-4daa51fbbf9c
+
+https://learning.sap.com/courses/inventory-management-and-physical-inventory-in-sap-s-4hana/posting-a-goods-receipt-with-reference
+
+
+
 In SAP, Goods Issue (GI) and Goods Receipt (GR) are two fundamental inventory movements that serve opposite purposes in the supply chain.
 
  Here's a clear breakdown:
 
-📦 Goods Receipt (GR)
+### 📦 Goods Receipt (GR)
 Definition: Inbound movement of goods into the warehouse or plant.
 
 Purpose: Increases stock levels.
 
-Common Scenarios:
+##### Common Scenarios:
 
 Receiving materials from a vendor (linked to a Purchase Order).
 
@@ -25,12 +34,12 @@ Triggers accounting entries (e.g., inventory valuation).
 
 May initiate quality inspection or putaway processes.
 
-🚚 Goods Issue (GI)
+### 🚚 Goods Issue (GI)
 Definition: Outbound movement of goods from the warehouse or plant.
 
 Purpose: Decreases stock levels.
 
-Common Scenarios:
+#### Common Scenarios:
 
 Delivering goods to a customer (linked to a Sales Order).
 
@@ -48,7 +57,7 @@ Posts cost of goods sold or internal consumption.
 
 May trigger delivery or billing processes.
 
-🔁 Key Differences
+#### 🔁 Key Differences
 Feature	  -   Goods Receipt (GR)	- Goods Issue (GI) <br>
  Direction 	-   Inbound (into inventory) -	Outbound (from inventory) <br>
 Stock Effect	-  Increases inventory -	Decreases inventory <br>
@@ -57,7 +66,7 @@ Typical Reference	- Purchase Order, Production Order	  -  Sales Order, Cost Cent
   Financial Impact - 	Adds to asset value	- Posts expense or revenue.<br>
 
 
-Material in SAP :
+#### Material in SAP :
 
 In SAP, a Material refers to anything that a company procures, produces, stores, or sells. It could be raw materials, semi-finished goods, finished products, packaging, or even services.
 
@@ -119,7 +128,7 @@ Services (SERV) → Repair, maintenance contracts
 
 All these are defined as Materials in SAP, each with its own views and lifecycle, ensuring every department (procurement, production, sales, accounting) works seamlessly on one single source of truth.
 
-![alt text](Imgs/{Img1}.png)
+![alt text](grgiImgs/{Img1}.png)
 
 
 
@@ -174,6 +183,87 @@ Update the production order and reduce the reservation quantity.<br>
 Generate a material document that you can use to track the movement. <br>
 
 
+#### Example in SAP MIGO Transaction
+
+### GI process
+
+https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F1062')/S31PCE
+
+![alt text](grgiImgs/img2.png)
+
+
+SAP Fiori screen in sap S/4 HANA 2021
+
+![alt text](grgiImgs/img3.png)
+
+![alt text](grgiImgs/img4.png)
+
+https://help.sap.com/docs/SAP_ERP/56f7319a9048445eb86221af73cab72b/1ef1d353ca9f4408e10000000a174cb4.html
+
+
+In SAP, a goods issue is a transaction that reduces the inventory of a material in the system, creating a material document and an accounting document. <br>
+This process is used when materials are shipped to customers, used in production, or moved for other purposes like scrapping or internal consumption. <br>
+Example: Issuing a raw material for a production order<br>
+This example illustrates a common goods issue scenario in SAP for Production Planning (PP).<br>
+Scenario: A company uses raw material 'X' to produce finished goods.<br>
+Reference Document: A production order is created in SAP for the finished product. This production order has a Bill of Materials (BOM) that lists 'X' as a component.<br>
+Check Stock: Before issuing, you would check the stock of material 'X' to confirm its availability.<br>
+ A common transaction for this is {Link: MMBE https://www.youtube.com/watch?v=r8mjAAh_dZk} (Stock Overview). <br>
+Initiate Goods Issue: You use the transaction code MIGO (or the older MB1A) to post the goods issue. <br>
+Enter Details:<br>
+Select the movement type 261, which is used for goods issues against a production order.<br>
+Enter the production order number. The system will automatically populate the component 'X' and the required quantity from the BOM.<br>
+Confirm the quantity to be issued.<br>
+Specify the plant and storage location from which the material will be issued.<br>
+Post:<br>
+Post the transaction.<br>
+The system performs the following actions:<br>
+Decreases the inventory of raw material 'X' in the specified storage location.<br>
+Updates the stock of the finished product (as raw material is consumed).<br>
+Creates a material document (e.g., M-12345) and a corresponding accounting document.<br>
+Updates the production order to reflect the consumption of the component. <br>
+
+
+T-Code MiGO
+
+![alt text](grgiImgs/img6.png)
+
+MMBE
+
+![alt text](grgiImgs/img7.png)
+
+
+In SAP, serial numbers are associated with a material through a Serial Number Profile assigned in the material master record, which dictates when and how serialization occurs in business transactions like goods movements. Barcodes are then used as a practical tool to scan and capture these unique serial numbers efficiently during physical inventory processes. 
+Association Process
+The association process in SAP involves configuration and master data setup: 
+Define Serial Number Profile: In customization (transaction OIS2), a serial number profile is created. This profile is the central control, defining rules like:
+Serialization Procedure: Specifies for which business transactions (e.g., Goods Receipt in Materials Management (MMSL), Production Orders (PPAU)) the serial number is relevant and whether its entry is optional, mandatory, or automatic.
+Equipment Requirement: Determines if an equipment master record should be created automatically in the background for each serial number, which is useful for asset management and maintenance tracking.
+Stock Check: Defines whether the system should check the stock status of the serial number during movements.
+Assign Profile to Material Master: The created serial number profile is assigned to the material master record in the Plant data/Storage 2 view (transaction MM01/MM02). This step flags the material as a serialized material.
+Serial Number Creation and Assignment: During relevant business transactions (e.g., Goods Receipt in MIGO, production order creation/release), the system prompts the user to enter or automatically generate serial numbers for each individual quantity of the material. The combination of material number and serial number is unique across the SAP client. 
+Integration with Barcodes
+Barcodes serve as the physical representation of the serial numbers, streamlining data entry and improving accuracy: 
+Scanning Efficiency: Instead of manually typing long serial numbers into SAP during transactions like goods receipt or goods issue, warehouse personnel use handheld scanners (often RF guns in a Warehouse Management (WM) environment) to scan the barcode label on the physical item.
+Data Capture: The scanned barcode data is automatically captured by the SAP system, populating the serial number fields in the transaction screens. This ensures the correct, unique number is recorded against the specific material movement or stock entry.
+Label Printing: SAP can be configured to print labels with barcodes for each serial number, typically during production or packaging processes.
+Tracking and Verification: The physical barcode allows for easy verification of the item in stock. Transaction codes like IQ09 can be used to display a list of serial numbers, and physical items can be matched to their digital records via scanning. 
+In essence, SAP manages the logic and data association, while barcodes facilitate the efficient physical interaction with the serialized items in the real world. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -185,7 +275,7 @@ Generate a material document that you can use to track the movement. <br>
 
 /IWBEP/IF_MGW_APPL_SRV_RUNTIME~CREATE_DEEP_ENTITY	Instance Method	Public	                               	Execute a deep insert CREATE request (CreateRUD)
 
-![alt text](Imgs/image.png)
+![alt text](grgiImgs/image.png)
 
   METHOD /iwbep/if_mgw_appl_srv_runtime~create_deep_entity.
 *----------------------------------------------------------------------*
@@ -985,3 +1075,100 @@ ETS_VALTYPESET_GET_ENTITYSET	Instance Method	Protected	                         
 
 ## GR App
 https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F0843')/S23OP
+
+https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/91b21005dded4984bcccf4a69ae1300c/dcc5840b808f4de989a93a02ece18e1b.html
+
+/sap/bc/ui2/flp?sap-client=200&sap-language=en#Material-manageStock?sap_mmim_apptype=manage&/?sap-iapp-state=ASGXIVPMX60QJCDMXS2WU122EN79PVLG8D2FC93E
+
+![alt text](grgiImgs/img5.png)
+
+s2p.mm.im.goodsreceipt.purchaseorder.GR4POS1-ext
+
+![alt text](grgiImgs/img9.png)
+
+![alt text](grgiImgs/img8.png)
+
+
+![alt text](grgiImgs/img9.png)
+
+
+
+The SAP transaction code for a goods receipt with a purchase order is MIGO. <br>
+ To use it, select "Goods Receipt" and "Purchase Order" as the reference, enter the PO number and movement type \(101\), and then post the document. <br>
+ Step-by-step example using T-code MIGO Start the transaction: <br>
+ Enter MIGO in the SAP command field and press Enter.Set the transaction and reference:<br>
+ In the initial screen, select Goods Receipt (or GR).
+ Change the reference document to Purchase Order (or PO).Enter purchase order details:Enter the Purchase Order number from the delivery note.<br>
+ Enter the movement type $101$ (GR for PO).The system will default the document and posting dates to the current date. <br>
+ You can change them if needed.Check the details:Press Enter. <br>
+ The system will populate the details from the purchase order.Check that the correct items are selected (e.g., by clicking the "Item OK" check box).<br>
+ Verify the quantities and storage locations.<br>
+  You can change the quantity if the received amount differs.<br>
+  Post the goods receipt:<br>
+  Click the Post button to finalize the transaction.<br>
+  The system will generate a material document and update the inventory.<br>
+   Example scenario Scenario: <br>
+  A company receives 50 units of material R-1000 against purchase order 5000012345.Steps in MIGO:Execute MIGO.Select Goods Receipt and Purchase Order.<br>
+  Enter 5000012345 in the PO field and 101 in the Movement type field.Press Enter.Select the item line for material R-1000.Post the document. 
+
+************************************************************************************************
+
+SAP Goods Receipt Process for Beginners ✔️
+
+The SAP Goods Receipt (GR) process confirms that ordered materials or services have been received at the plant or warehouse. 
+
+Below is a beginner-friendly, step-by-step breakdown of the process, including the main transaction codes (T-codes).
+
+[Create Purchase Requisition]
+ME51N
+        ↓
+[Create Purchase Order]
+     ME21N
+        ↓
+[Goods Receipt Posting]
+   (Material Arrives)
+     MIGO
+        ↓
+[Quality Inspection]
+   (If Required)
+     QA32
+        ↓
+[Stock Update]
+(Automatic)
+        ↓
+[Invoice Receipt]
+     MIRO
+
+Step-by-Step Explanation✔️ 
+
+Purchase Requisition [ME51N]:
+The process starts with a requisition raised by a department requesting certain materials.
+
+Purchase Order [ME21N]
+The requisition is reviewed and converted into a Purchase Order (PO), which is sent to the supplier.
+
+Goods Receipt Posting [MIGO]
+When materials arrive, the warehouse/plant confirms receipt in SAP using MIGO. You select "Goods Receipt" and reference the PO.
+
+Quality Inspection [QA32] (Optional)
+If quality checks are required (defined by material master/settings), goods go through inspection.
+
+Stock Update
+Upon successful posting, SAP automatically updates inventory.
+
+Invoice Receipt [MIRO]
+Accounts Payable validates the supplier invoice against both the PO and Goods Receipt, then processes payment.
+
+Additional Notes ✔️ 
+
+Movement Type 101 is usually used for Goods Receipt against a PO in MIGO.
+After posting the GR, SAP generates both a material document and (if valuated) an accounting document.
+
+GR posting updates the Purchase Order History, helping procurement track open versus received quantities.
+
+Mistakes in Goods Receipt (e.g., wrong quantity) can be reversed using MIGO (with reference to the original document).
+
+This flow helps SAP beginners visualize and execute the standard Goods Receipt process, making it easy to follow and understand each step with the T-codes used at each stage.
+
+
+
