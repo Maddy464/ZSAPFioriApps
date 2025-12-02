@@ -1,0 +1,65 @@
+{
+    "_version": "1.1.0",
+    "sap.app": {
+        "_version": "1.1.0",
+        "id": "fin.ar.manualclearing.fin_armanclear-ext",
+        "type": "application",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{FULLSCREEN_TITLE}}",
+        "sourceTemplate": {
+            "id": "generator-extensibilty-sub",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "_version": "1.1.0",
+        "technology": "UI5",
+        "icons": { 
+            "icon": "sap-icon://Fiori6/F0773",
+            "favIcon": "./resources/sap/ca/ui/themes/base/img/favicon/F0773_ManClearIncPayment.ico"
+        },
+        "deviceTypes": { 
+            "desktop": true,
+            "tablet": false,
+            "phone": false
+        },
+        "supportedThemes": [
+          "sap_hcb",
+          "sap_bluecrystal"
+        ]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+         "dependencies": {
+            "minUI5Version": "1.90.2",
+			"libs": {
+				"sap.m": {},
+				"sap.ca.ui": {
+					"lazy": false
+				},
+				"sap.fin.arp.lib.clearing": {
+					"lazy": false
+				}
+			},  
+            "components": {
+                "sap.se.mi.plm.lib.attachmentservice.attachment": {}
+            }                      
+        },                
+		"componentUsages": {
+			"attachmentReuseComponent": {
+				"name": "sap.se.mi.plm.lib.attachmentservice.attachment",
+				"settings": {}
+			}
+		},
+        "extends": {
+            "component": "fin.ar.manualclearing",
+            "extensions": {}
+        },           
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    }
+}

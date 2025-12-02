@@ -1,0 +1,27 @@
+{
+  "type": "abaprep",
+  "BSPName": "FIN_ARMANCLEAR",
+  "component": "FIN_ARMANCLEAR%2fComponent.js",
+  "manifest": "FIN_ARMANCLEAR%2fmanifest.json",
+  "versionJsonPath": "FIN_ARMANCLEAR%2fversion.json",
+  "controllers": {
+    "App": "FIN_ARMANCLEAR%2fApp.controller.js"
+  },
+  "views": {
+    "App": "FIN_ARMANCLEAR%2fApp.view.xml"
+  },
+  "system": {
+    "name": "XXD_dev_webide_200",
+    "proxyUrlPrefix": "/destinations/XXD_dev_webide_200",
+    "path": "/sap/bc/adt",
+    "url": "/destinations/XXD_dev_webide_200/sap/bc/adt",
+    "wattUsage": "dev_abap,odata_abap",
+    "entryPath": "/sap/bc/adt",
+    "additionalData": []
+  },
+  "minUI5Version": "1.90.2",
+  "namespace": "fin.ar.manualclearing",
+  "parentResourceRootUrl": "/destinations/XXD_dev_webide_200/sap/bc/ui5_ui5/sap/FIN_ARMANCLEAR",
+  "resourceBundle": "i18n/i18n.properties",
+  "shouldLinkComponentToManifest": true
+}
