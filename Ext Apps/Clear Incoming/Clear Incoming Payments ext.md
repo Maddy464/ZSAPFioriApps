@@ -8,6 +8,7 @@ https://extensibilityexplorer.cfapps.eu10.hana.ondemand.com/ExtensibilityExplore
 
 https://community.sap.com/t5/technology-blog-posts-by-sap/sap-fiori-for-sap-s-4hana-what-is-key-user-extensibility-and-who-are-your/ba-p/13560372#:~:text=Key%20user%20extensibility%20is%20a,directly%20in%20SAP%20Fiori%20apps%2C
 
+https://help.sap.com/docs/SAP_S4HANA_CLOUD/918bca53037f408f91a2295d04ac16bc/aa935490094b441e9444ed74afba4d41.html
 
 
 https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F0773')/S23OP
