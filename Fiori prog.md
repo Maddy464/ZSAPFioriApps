@@ -1,5 +1,6 @@
 SAPUI5 PROGRAMMING STANDARDS AND BEST PRACTICES
  
+https://github.com/airbnb/javascript
 
 Contents
 0	Document Information	6
@@ -159,7 +160,9 @@ Beside mentioned above points general code quality is very important part of bui
 2.1.1	Use Right SAPUI5 technologies for the requirement
 SAPUI5 is JavaScript-based front-end framework and it includes various technology layers, lower levels allow to develop custom-sapui5 controls with own HTML5/CSS rendering logic and higher layer (Fiori Elements) allows to build complex code-free applications. The power of SAPUI5 is that one application could combine different technology layers – for example Fiori Elements application could contain custom XML Fragment with Custom Controls.
 For each new requirement we should start with Fiori Elements implementation option and only in case if requirements could not be met at this level, we should go with enhancements or even non-Fiori-Elements based apps development.
-Fiori Elements is technology that available in S/4 and non-S4 and even non-ABAP landscapes, thus it does not contain any serious backend-system limitations.
+Fiori Elements is technology that available in S/4 and non-S4 and even non-ABAP landscapes, thus it does not contain any serious backend-system limitations.<br>
+
+![alt text](image.png)
   
 2.1.2	Use OData Model over JSON Model in the Application
 Application design should be done the way that application data-screens should be bounded to the OData model directly. This is clear direction where SAP is moving with SAPUI5, ignoring this principle and introducing interim JSON models for backend data will led to significant code overhead.
@@ -435,6 +438,7 @@ https://sapui5.hana.ondemand.com/#/topic/003f755d46d34dd1bbce9ffe08c8d46a.html
  
 4.1.2.2	Modules
 All modules definitions and their imports to be done with sap.ui.define([]):
+![alt text](image-2.png)
  
 For TypeScript ES6 modules (i.e. the export and import keywords) should be used.
 4.1.3	Formatting
@@ -448,6 +452,7 @@ Follow SAP recommended code format guidelines:
 •	The code should therefore look like this:
  
 •	Use IDE Code Beautifier for js files and also for XML view and JSON files
+![alt text](image-3.png)
 4.1.4	Language Features
 4.1.4.1	Local variable declarations
 4.1.4.1.1	Use const and let
@@ -461,9 +466,12 @@ As general recommendation follow SAPUI5 approach for creating and managing JS Ob
 4.1.4.2.1	Do not mix quoted and unquoted keys
 Object literals may represent either structs (with unquoted keys and/or symbols) or dicts (with quoted and/or computed keys). Do not mix these key types in a single object literal.
 Illegal:
+![alt text](image-4.png)
+
  
 4.1.4.2.2	Enums
 Enumerations are defined by adding the @enum annotation to an object literal. Additional properties may not be added to an enum after it is defined. Enums must be constant, and all enum values must be deeply immutable.
+![alt text](image-5.png)
  
 4.1.4.3	Classes
 Follow SAPUI5 rules and guidelines for classes (they are pretty specific):
@@ -578,6 +586,8 @@ The right-hand side of the arrow may be a single expression or a block. Always u
 Function parameters must be typed with JSDoc annotations in the JSDoc preceding the function’s definition, except in the case of same-signature @overrides, where all types are omitted.
 In case of any questions refer to SAP standard library and check how JSDoc used there, good example could be v4.ODataModel, which is pretty modern:
 
+![alt text](image-6.png)
+
  
 
 Parameter types may be specified inline, immediately before the parameter name (as in (/** number */ foo, /** string */ bar) => foo + bar). Inline and @param type annotations must not be mixed in the same function definition. 
@@ -585,15 +595,17 @@ Parameter types may be specified inline, immediately before the parameter name (
 4.1.4.4.2.1	Default parameters
 Optional parameters are permitted using the equals operator in the parameter list. Optional parameters must include spaces on both sides of the equals operator, be named exactly like required parameters (i.e., not prefixed with opt_), use [] brakets in their JSDoc name to highlight that these are optional params. Do not use initializers that produce observable side effects. All optional parameters must have a default value in the function declaration, even if that value is undefined.
 Example:
+![alt text](image-1.png)
  
 Use default parameters sparingly. Prefer Function Parameters Destructuring to create readable APIs when there are more than a small handful of optional parameters that do not have a natural order.
 4.1.4.4.2.2	Functional Parameters Destructuring
 Object destructuring patterns may be used on the left-hand side of an assignment to perform destructuring and unpack multiple values from a single object.
 Destructured objects may also be used as function parameters but should be kept as simple as possible: a single level of unquoted shorthand properties. Deeper levels of nesting and computed properties may not be used in parameter destructuring. Specify any default values in the left-hand-side of the destructured parameter ({str = “some default”} = {}, rather than {str} = {str: “some default”}), and if a destructured object is itself optional, it must default to {}. The JSDoc for the destructured parameter may be given any name (the name is unused but is required by the compiler).
 Example:
+![alt text](image-8.png)
  
 Illegal:
- 
+ ![alt text](image-7.png)
 4.1.4.5	String literals
 4.1.4.5.1	Use double quotes
 Ordinary string literals are delimited with double quotes ("), rather than single quotes (').
@@ -603,12 +615,15 @@ Ordinary string literals may not span multiple lines.
 Use template strings (delimited with `) over complex string concatenation, particularly if multiple string literals are involved. Template strings may span multiple lines.
 If a template string spans multiple lines, it does not need to follow the indentation of the enclosing block, though it may if the added whitespace does not matter.
 Example:
+![alt text](image-9.png)
  
 4.1.4.5.3	No line continuations
 Do not use line continuations (that is, ending a line inside a string literal with a backslash) in either ordinary or template string literals. Even though ES5 allows this, it can lead to tricky errors if any trailing whitespace comes after the slash, and is less obvious to readers.
 Illegal:
+![alt text](image-10.png)
  
 Instead, write:
+![alt text](image-11.png)
  
 4.1.4.6	Control structures
 4.1.4.6.1	For loops
@@ -756,8 +771,10 @@ For documenting JavaScript, SAPUI5 uses the JSDoc3 toolkit which mimics JavaDoc.
 •	JSDoc is used on all classes, fields, and methods, except controller and component classes whether this is optional.
 4.1.6.1	General form
 The basic formatting of JSDoc blocks is as seen in this example:
+![alt text](image-12.png)
  
 or in this single-line example:
+![alt text](image-13.png)
  
 If a single-line comment overflows into multiple lines, it must use the multi-line style with /** and */ on their own lines.
 Many tools extract metadata from JSDoc comments to perform code validation and optimization. As such, these comments must be well-formed.
@@ -896,9 +913,12 @@ For each next change in ui5-deploy.yaml the row with previous transport request 
 Follow MVC concept for SAPUI5 applications:
 https://sapui5.hana.ondemand.com/#/topic/91f233476f4d1014b6dd926db0e91070
 MVC for low complexity applications (UI logic is inside the controller):
+![alt text](image-14.png)
  
 
 MVC for medium and high complexity applications (business logic is in special Service Layer):
+
+![alt text](image-15.png)
  
 
 For medium and high-complexity applications avoid business logic in controllers, instead put it in the appropriate UI Service-layer classes (also could be referenced as helper-, manager- classes for business entities), a good starting point to have one Service class for each business object. These Service classes should be fully responsible for:
@@ -908,8 +928,10 @@ For medium and high-complexity applications avoid business logic in controllers,
 •	Reacting on view model state changes and updating dependent properties
 Controller in this scheme is responsible only for reacting on UI events and redirecting them appropriate Service classes.
 Do:
+![alt text](image-17.png)
  
 Don’t:
+![alt text](image-16.png)
  
 …	
     …
@@ -1055,6 +1077,7 @@ Input parsing and output formatting are now carried out automatically. If, for e
 4.2.6.1	OData Message Processing:
 For OData errors message processing, prefer to use standard SAP approach:
 •	Add event listener for OData Messages and unset technical error flag (for all or certain messages), so that these messages are processed by MessageManager and shown to user:
+![alt text](image-18.png)
  
 •	Set global messageLog JSON model based on MessageModel:
 o	this.setModel(sap.ui.getCore().getMessageManager().getMessageModel(), "messageLog");
@@ -1065,16 +1088,7 @@ To handle business logic messages use:
 •	put proper ‘target’ property in the message, so that relevant control would be highlighted with error message (in ‘target’ we could put model property path, that cause the error)
 4.2.7	Application templates
 Create new applications with   / SAP applications templates, in case if it matches to-be application logic, but deleted unused code generated by template application. 
-4.2.7.1	  Template: Master-Detail for low-complexity metadata-driven UI
-https:// .sharepoint.com/:w:/r/teams/ GlobalTemplatePGT655/Shared%20Documents/General/Enabling%20Teams/Technology/Development%20%26%20Governance/Fiori%20Team/Enterprise%20First%20SAPUI5%20Transactional%20TD_Template_with_Example%20v1.1.docx?d=w4b9f4902b1454247b59e50462ea47da7&csf=1&web=1&e=A9CumV
-4.2.7.2	  Template: Master-Detail for medium-high-complexity Transactional UI
-https:// .sharepoint.com/:w:/r/teams/ GlobalTemplatePGT655/Shared%20Documents/General/Enabling%20Teams/Technology/Development%20%26%20Governance/Fiori%20Team/Enterprise%20First%20SAPUI5%20Transactional%20TD_Template_with_Example%20v1.1.docx?d=w4b9f4902b1454247b59e50462ea47da7&csf=1&web=1&e=A9CumV
-4.2.7.3	  Template: Enhancement
-https:// .sharepoint.com/:w:/r/teams/ GlobalTemplatePGT655/Shared%20Documents/General/Enabling%20Teams/Technology/Development%20%26%20Governance/Fiori%20Team/archive/Enterprise%20First%20SAPUI5%20Enhancement%20TD_Template%20v0.2.docx?d=w406446e3fa5d46059842bb39df08b31c&csf=1&web=1&e=aVtMA0
-4.2.7.4	  Template: Analytical Application 
-https:// .sharepoint.com/:w:/r/teams/ GlobalTemplatePGT655/Shared%20Documents/General/Enabling%20Teams/Technology/Development%20%26%20Governance/Fiori%20Team/archive/Enterprise%20First%20SAPUI5%20Analytical%20TD_Template_v0.1.docx?d=w375247928f1a447aad7cc59378a663f4&csf=1&web=1&e=g4n65H
-4.2.7.5	  Template: Fact Sheet
-https:// .sharepoint.com/:w:/r/teams/ GlobalTemplatePGT655/Shared%20Documents/General/Enabling%20Teams/Technology/Development%20%26%20Governance/Fiori%20Team/archive/Enterprise%20First%20SAPUI5%20Fact%20Sheet_Template_v0.1.DOCX?d=w698689d35e4c48e290aaf15b3f6f5eab&csf=1&web=1&e=p7q3eW
+4.2.7.1	  
 4.2.8	Third-party libraries
 Preference is not to use third party libraries unless required.  Use standard SAP UI5 libraries where possible.
 Include approved for usage third-party JavaScript resources when needed.  
@@ -1146,10 +1160,15 @@ VDM View Type	Private	CDS Name Prefix	SQL Name Prefix
 #BASIC	X	ZGGL_PPP_CVP_	ZGGLPPPC_P
 #EXTENSION		ZGGL_PPP_CVE_	ZGGLPPPC_E
 
+
+![alt text](image-19.png)
+
  
 
 
 •	Use well-known business terminology for all new CDS Artefacts (Views, Element Aliases, Association Aliases) – avoid acronyms and abbreviations. In case if underlaying CDS View or Table does not have whole-word names, then create aliases for such elements.
+
+![alt text](image-20.png)
  
 •	Always re-use SAP names for all new CDS Artefacts, for example when adding element to the existing CDS View review other SAP-delivered views where same element could exist and take name from there.
 •	Association aliases should start with _
@@ -1205,14 +1224,19 @@ Reach QA team for more details.
 4.4.2	Avoid creating own CSS styling if is not absolutely necessary
 Avoid creating own CSS styles for changing fonts, colors etc. Styling should be done thru applying appropriate theme.
 Try to not apply CSS style classes directly to controls as it could break flexibility when changing FLP theme
+
+![alt text](image-21.png)
  
 Do (for web application deployed on Fiori Launchpad):
 	Use Fiori Theme designer and / or special URL parameter (sap-ui-theme=sap_belize).
 https://sapui5.hana.ondemand.com/#/topic/e9fc648661d84ed89360bbec3ae02611
 Do (for mobile applications):
 	Apply theme via index.html:
+  ![alt text](image-22.png)
  
 Or directly from JS:
+
+![alt text](image-23.png)
  
 
 4.5	Mock Data and Testing 
@@ -1251,6 +1275,8 @@ https://developers.sap.com/mena/tutorials/hcpms-create-hybrid-app.html
 Please refer to Getting Started with Kapsel – Part 1 | SAP Blogs
 4.8	Other JS Front-End Frameworks
 It is hard to compare SAPUI5 technology to other JavaScript framework such as Angular, React or Ember, because this library was made with the purpose of building Enterprise level Business Applications. There are a lot of components like controls and widgets built in SAPUI5 core library. That is not the case with Angular, React, etc. The common feature of UI5 and Angular is that they are both easy to learn and use and they both can be used for PC as well as for mobile apps. Also, Angular brings server-side to client-side web application. Still, many programmers prefer UI5, because SAPUI5 has more controls, fitted to the use case of SAP (think of it like a modern jQuery Mobile). SAPUI5 is a full-fledged opinionated Framework.
+
+![alt text](image-24.png)
 
  
 https://blogs.sap.com/2017/03/04/side-by-side-sapui5-vs.-react-angular2/
@@ -1321,21 +1347,7 @@ Under construction (check Splunk option with Amit and Naimesh)
 7.4	  Environment and System Landscape
 	*Note:  They are looking to change the systems after January to all have Fiori embedded so this list may need to change.
 System 	Business Suite System(OData)  	Gateway system	Description
-G1D	Yes	N/A	Dev
-G1Q	Yes	N/A	Quality
-G1S	Yes	N/A	Sandbox
-G2D	N/A	Yes	Fiori Dev
-G2Q	N/A	Yes	Fiori Quality
-G2S	N/A	Yes	Fioiri Sandbox
-G3S	Yes	Yes	POC Sandbox
-GBD	Yes	N/A	BOBJ Dev
-GGD	Yes	N/A	GRC for HANA Dev
-GGS	Yes	N/A	GRC for HANA Sandbox
-GMS	Yes	N/A	Master Data Governance
-GPS	Yes	Yes	Portal Sandbox
-GSA	N/A	N/A	Solution Manager
-GWD	N/A	N/A	Dev Replication Server
-GWS	N/A	N/A	Sandbox Replication Server
+
 
 7.5	Interacting with Backend Services (S/4, SCP, Others)
 SAPUI5 can exchange data using XML HTTP Request object to call complete datasets from the backend systems. However, the controls used within SAPUI5 are highly optimized to exchange data using the open data OData protocol.
@@ -1448,20 +1460,11 @@ U006007 - Build Ready For Review - INC08882318 - INC10827670
 The email should contain the description of changes and necessary info for the reviewer. TSD link and GIT link should be placed. Then the following form should be filled. The sample email body:
 Hi Fiori team.
  
-U006007 - INC08882318 - INC10827670 - is ready for Build Review. 
-Please check and provide your feedback/approval.
  
-TSD Link: TSD_AppDev_SM30F_Utility_FIORI
-GIT Link: https:// it.visualstudio.com/SAP/_git/ecc4_ui5_ggl_dev_sm30fTool 
- 
-General Details: (mandatory to fill)
-RICEF ID	U006007
-Project (PBNA/FLNA/Sustain/ESSAW1)	FLNA
-Development Team	Fiori DSO
 Latest version of TS document uploaded in SOLMAN (Yes/No)	Yes
 TSD Status	Build Ready For Review
-Provide Transport and Task/s submitted for review.	G1DK9A0LMH (W)
-Tasks: G1DK9A0SJ9
+Provide Transport and Task/s submitted for review.	
+Tasks: 
 If Task(TR) under review is released, provide reason.	Released to ensure working fine in A1Q / 500
 Was the SDR approved by the Technical Solution Owner Team (Only for CRF change)?	Yes
 Comments	
