@@ -1,8 +1,40 @@
 
 
+https://extensibilityexplorer.cfapps.eu10.hana.ondemand.com/ExtensibilityExplorer/
+
+![alt text]({0429B296-D957-4693-A4B1-2A8F761026A1}.png)
+
 https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/detail/Apps('F0773')/S23OP
 
 https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/3cb1182b4a184bdd93f8d62e3f1f0741/340f87546ccd9c62e10000000a445394.html?version=2021.002
+
+https://www.scribd.com/document/850541675/In-App-Extension-Custom-Fields-and-Logic-S4HANA-On-Premise-Copia
+
+![alt text]({D9E0158F-6B5F-436F-A5A3-181915462782}.png)
+
+
+![alt text]({485115DD-25CF-4CE1-9834-C3165ACA3896}.png)
+
+The reference key fields in the BSEG table in SAP are used to store additional information for line items to facilitate reporting and reconciliation, such as a predecessor document number or an external invoice number. These fields (like BSEG-XREF1 and BSEG-XREF3) are used to link financial documents to other SAP documents or external data. They can be populated manually or automatically based on system configuration and are often used in conjunction with other fields to create a unique payment reference. 
+
+How reference keys are used
+
+External reference: Store an external invoice number, such as when posting a vendor down payment, so the corresponding invoice can be easily identified later.
+
+Predecessor document: Link the financial document to a predecessor document, such as a purchase order or a goods receipt from the MM module.
+
+Payment reference: Use the reference key in combination with other fields to generate a payment reference for a specific transaction.
+
+Reporting and analysis: Provide additional data points for reporting and analysis that are not available in standard line item reports.
+
+Custom logic: Use reference keys as a way to pass information between different SAP modules or for custom logic in specific processes. 
+
+Imagine a company receives an invoice from a vendor for a specific product. The vendor's invoice number is "INV-12345". When this invoice is processed in SAP, the user can enter "INV-12345" into the BSEG-ZUMSW (Reference key 1) field.
+This provides the following benefits:
+When viewing the document in SAP, the user can immediately see the vendor's invoice number in the "Reference key" field.
+This allows them to quickly look up the original paper or electronic invoice if needed for an audit or for reconciliation.
+A custom report could be created that pulls all transactions with a specific reference key, such as "INV-12345", making it easy to see all costs associated with that invoice.
+
 
 
 Custom Fiori Tile is being created to provide additional fields into Clear Incoming Payments Fiori App. To achieve this need to enhance the OData service FAR_MANUAL_CLEARING and to add missing field ZZ1_XREF6_COB of corresponding structure FAC_S_ACCDOC_ITM_ODATA into FinsPostingAPARItem entity.
